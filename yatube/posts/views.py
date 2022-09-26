@@ -1,14 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
+from .models import *
 
-def index(request: object) -> HttpResponse:
-    """
-    Вью функция главной страницы
-    :param : request
-    :return : HttpResponse
-    """
-    return HttpResponse('Главная страница')
+
+def index(request: object):
+    # Одна строка вместо тысячи слов на SQL:
+    # в переменную posts будет сохранена выборка из 10 объектов модели Post,
+    # отсортированных по полю pub_date по убыванию (от больших значений к меньшим)
+    posts = Post.objects.order_by('-pub_date')[:10]
+    # В словаре context отправляем информацию в шаблон
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'posts/index.html', context)
 
 
 def group_posts(request, slug) -> HttpResponse:
@@ -17,4 +22,12 @@ def group_posts(request, slug) -> HttpResponse:
     :param : slug, request
     :return : HttpResponse
     """
-    return HttpResponse(f'Посты группы {slug}')
+
+    group = get_object_or_404(Group, slug=slug)  # проверка наличия группы
+    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]  # выборка постов
+
+    context = {
+        'group': group,
+        'posts': posts,
+    }
+    return render(request, 'posts/group_list.html', context)
