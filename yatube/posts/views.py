@@ -24,7 +24,8 @@ def group_posts(request, slug) -> HttpResponse:
     """
 
     group = get_object_or_404(Group, slug=slug)  # проверка наличия группы
-    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]  # выборка постов
+    posts = Post.objects.filter(group=group).order_by('-pub_date')[
+            :10]  # выборка постов
 
     context = {
         'group': group,

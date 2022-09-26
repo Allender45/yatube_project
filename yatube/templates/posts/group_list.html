@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <h1>Лев Толстой – зеркало русской революции.</h1>
+  <h1>Лев Толстой – зеркало русской революции.</h1>
+  <p>
+    Группа тайных поклонников графа.
+  </p>
+  {% for post in posts %}
+  <article>
+    <ul>
+      <li>
+        Автор: {{ post.author }}
+      </li>
+      <li>
+        Дата публикации: 30 июля 1854 {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
     <p>
-        Группа тайных поклонников графа.
+      {{ post.text }}
     </p>
-    {% for post in posts %}
-    <article>
-        <ul>
-            <li>
-                Автор: {{ post.author }}
-            </li>
-            <li>
-                Дата публикации: 30 июля 1854 {{ post.pub_date|date:"d E Y" }}
-            </li>
-        </ul>
-        <p>
-            {{ post.text }}
-        </p>
-    </article>
-    {% if not forloop.last %}
-    <hr>
-    {% endif %}
-    {% endfor %}
-    <!-- под последним постом нет линии -->
+  </article>
+  {% if not forloop.last %}
+  <hr>
+  {% endif %}
+  {% endfor %}
+  <!-- под последним постом нет линии -->
 </div>
 {% endblock %}
