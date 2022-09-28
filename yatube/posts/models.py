@@ -12,7 +12,8 @@ class Post(models.Model):
                                verbose_name='Автор',
                                related_name='posts_author')
     group = models.ForeignKey('Group', on_delete=models.CASCADE,
-                              verbose_name='Группа', related_name='posts_group',
+                              verbose_name='Группа',
+                              related_name='posts_group',
                               blank=True, null=True)
 
     class Meta:
